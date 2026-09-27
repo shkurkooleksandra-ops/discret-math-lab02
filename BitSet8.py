@@ -100,3 +100,23 @@ print("U\B", b.set(), "=", (~b).set(), "\n", b, "\n --------\n", ~b)
 print_operation(a, "\u2206", b, a ^ b)
 print(a.set(), "*", b.set(), "=", a * b)
 
+c = input_bit_set("Ведіть множину C через кому: ")
+d = input_bit_set("Ведіть множину D через кому: ")
+result1 = (a | b) & (c | d)
+
+result2 = (~a & ~b & c) | (a | ~(b & c)) | d
+
+result3 = (a - b) | (c - d)
+
+result4 = ~((a - c) - d) | b
+
+result5 = (a ^ b) - (c ^ d)
+
+result6 = set(a * c) & set(d * (b - a))
+
+print("1. (A ∪ B) ∩ (C ∪ D) =", result1.set(), result1)
+print("2. (~A ∩ ~B) ∩ C) ∪ (A ∪ ~(B ∩ C)) ∪ D =", result2.set(), result2)
+print("3. (A \\ B) ∪ (C \\ D) =", result3.set(), result3)
+print("4. ~((A \\ C) \\ D) ∪ B =", result4.set(), result4)
+print("5. (A Δ B)\\ (C Δ D) =", result5.set(), result5)
+print("6. (A * C) ∩ (D * (B \\ A)) =", sorted(result6))
