@@ -17,7 +17,7 @@ class BitSet8:
     def __str__(self):
         return f"{self.bitset:08b}"
 
-    def list(self):
+    def set(self):
         result = []
         for n in range(0, 8):
             if (self.bitset & 1 << n) != 0:
@@ -39,14 +39,18 @@ class BitSet8:
         u = self.bitset ^ other.bitset
         return BitSet8(u)
 
-    # Symmetric Difference
+    # Difference
     def __sub__(self, other):
         u = self.bitset ^ (self.bitset & other.bitset)
         return BitSet8(u)
 
     # Invert U \ A
     def __invert__(self):
-        return BitSet8(self.bitset ^ 255)
+        return BitSet8(self.bitset ^ 255)  #
+
+    # Complement A \ B
+    def __truediv__(self, other):
+        return BitSet8((other.bitset ^ 255) & self.bitset)
 
     # Cartesian
     def __mul__(self, other):
@@ -64,6 +68,38 @@ class BitSet8:
     def __eq__(self, other):
         return self.bitset == other.bitset
 
+    def contains(self, other):
+        return self & other == other
 
-x = BitSet8([3, 4,5])
-y = BitSet8([3, 4])
+
+def input_bit_set(prompt):
+    t = input(prompt).split(",")
+    sn = []
+    for s in t:
+        ss = s.strip()
+        if ss.isnumeric():
+            n = int(ss)
+            if n < 1 or n > 8:
+                raise ValueError("Invalid value, accepted values between 1 and 8")
+            sn.append(n)
+    return BitSet8(sn)
+
+
+def print_operation(a, op, b, c):
+    print(a.set(), op, b.set(), "=", c.set())
+    print(a, op)
+    print(b)
+    print("--------")
+    print(c)
+
+
+a = input_bit_set("Ведіть множину A через кому: ")
+b = input_bit_set("Ведіть множину B через кому: ")
+
+print_operation(a, "\u222A", b, a | b)
+print_operation(a, "\u2229", b, a & b)
+print_operation(a, "\u2216", b, a - b)
+print_operation(a, "\u2206", b, a ^ b)
+print_operation(a, "\\", b, a / b)
+print(a.set(), "*", b.set(), "=", a * b)
+
