@@ -48,10 +48,6 @@ class BitSet8:
     def __invert__(self):
         return BitSet8(self.bitset ^ 255)  #
 
-    # Complement A \ B
-    def __truediv__(self, other):
-        return BitSet8((other.bitset ^ 255) & self.bitset)
-
     # Cartesian
     def __mul__(self, other):
         result = []
@@ -99,7 +95,8 @@ b = input_bit_set("Ведіть множину B через кому: ")
 print_operation(a, "\u222A", b, a | b)
 print_operation(a, "\u2229", b, a & b)
 print_operation(a, "\u2216", b, a - b)
+print("U\A", a.set(), "=", (~a).set(), "\n", a, "\n --------\n", ~a)
+print("U\B", b.set(), "=", (~b).set(), "\n", b, "\n --------\n", ~b)
 print_operation(a, "\u2206", b, a ^ b)
-print_operation(a, "\\", b, a / b)
 print(a.set(), "*", b.set(), "=", a * b)
 
